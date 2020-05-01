@@ -4,7 +4,7 @@ module.exports = {
   devtool: 'source-map',
 
   devServer: {
-    contentBase: './dist/',
+    contentBase: './src/',
   },
 
   resolve: {
@@ -27,7 +27,7 @@ module.exports = {
   },
 
   // Don't import paths matching these externally included resources
-  // avoides undling and allows caching by browsers between builds
+  // avoides bundling and allows caching by browsers between builds
   externals: {
     react: 'React',
     'react-dom': 'ReactDOM',
