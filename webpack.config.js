@@ -1,5 +1,6 @@
 module.exports = {
   mode: 'development',
+
   // enable sourcemaps for debugging
   devtool: 'source-map',
 
