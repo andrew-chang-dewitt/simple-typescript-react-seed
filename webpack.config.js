@@ -1,5 +1,7 @@
+const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = (env) => {
   const isProd = env ? env.production : false
@@ -12,11 +14,17 @@ module.exports = (env) => {
 
     devServer: {
       contentBase: './src/',
-      compress: true,
+      hot: true,
     },
 
     resolve: {
-      extensions: ['.ts', '.tsx', '.sass', '.css'],
+      extensions: ['.ts', '.tsx', '.js', '.sass', '.css'],
+    },
+
+    output: {
+      filename: '[name].[hash].bundle.js',
+      chunkFilename: '[name].[hash].bundle.js',
+      path: path.resolve(__dirname, 'dist'),
     },
 
     plugins: [
@@ -24,6 +32,7 @@ module.exports = (env) => {
         filename: isProd ? '[name].[contenthash].css' : '[name].css',
         chunkFilename: isProd ? '[id].[contenthash].css' : '[id].css',
       }),
+      new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
       new HtmlWebpackPlugin({
         title: 'We Cook Sometimes - Recipes',
         template: './src/index.html',
@@ -53,7 +62,7 @@ module.exports = (env) => {
             // match module.sass files fist
             {
               test: /\.module\.s?[a|c]ss$/i,
-              exclude: /node_modules/,
+              // exclude: /node_modules/,
               sideEffects: true,
               use: [
                 {
@@ -78,7 +87,7 @@ module.exports = (env) => {
 
             // then global sass files next
             {
-              exclude: /node_modules/,
+              // exclude: /node_modules/,
               sideEffects: true,
               use: [
                 {
